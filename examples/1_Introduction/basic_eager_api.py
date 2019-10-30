@@ -40,7 +40,6 @@ print("a + b = %i" % c)
 d = a * b
 print("a * b = %i" % d)
 
-
 # Full compatibility with Numpy
 print("Mixing operations with Tensors and Numpy Arrays")
 
@@ -65,4 +64,3 @@ print("Iterate through Tensor 'a':")
 for i in range(a.shape[0]):
     for j in range(a.shape[1]):
         print(a[i][j])
-

@@ -23,6 +23,7 @@ tfe = tf.contrib.eager
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=False)
 
 # Parameters
@@ -32,10 +33,10 @@ batch_size = 128
 display_step = 100
 
 # Network Parameters
-n_hidden_1 = 256 # 1st layer number of neurons
-n_hidden_2 = 256 # 2nd layer number of neurons
-num_input = 784 # MNIST data input (img shape: 28*28)
-num_classes = 10 # MNIST total classes (0-9 digits)
+n_hidden_1 = 256  # 1st layer number of neurons
+n_hidden_2 = 256  # 2nd layer number of neurons
+num_input = 784  # MNIST data input (img shape: 28*28)
+num_classes = 10  # MNIST total classes (0-9 digits)
 
 # Using TF Dataset to split data into batches
 dataset = tf.data.Dataset.from_tensor_slices(

@@ -12,25 +12,27 @@ Project: https://github.com/aymericdamien/TensorFlow-Examples/
 
 from __future__ import print_function
 
+# Ignore all GPUs, tf random forest does not benefit from it.
+import os
+
 import numpy as np
 import tensorflow as tf
 from tensorflow.contrib.factorization import KMeans
 
-# Ignore all GPUs, tf random forest does not benefit from it.
-import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 # Import MNIST data
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 full_data_x = mnist.train.images
 
 # Parameters
-num_steps = 50 # Total steps to train
-batch_size = 1024 # The number of samples per batch
-k = 25 # The number of clusters
-num_classes = 10 # The 10 digits
-num_features = 784 # Each image is 28x28 pixels
+num_steps = 50  # Total steps to train
+batch_size = 1024  # The number of samples per batch
+k = 25  # The number of clusters
+num_classes = 10  # The 10 digits
+num_features = 784  # Each image is 28x28 pixels
 
 # Input images
 X = tf.placeholder(tf.float32, shape=[None, num_features])
@@ -44,14 +46,14 @@ kmeans = KMeans(inputs=X, num_clusters=k, distance_metric='cosine',
 # Build KMeans graph
 training_graph = kmeans.training_graph()
 
-if len(training_graph) > 6: # Tensorflow 1.4+
+if len(training_graph) > 6:  # Tensorflow 1.4+
     (all_scores, cluster_idx, scores, cluster_centers_initialized,
      cluster_centers_var, init_op, train_op) = training_graph
 else:
     (all_scores, cluster_idx, scores, cluster_centers_initialized,
      init_op, train_op) = training_graph
 
-cluster_idx = cluster_idx[0] # fix for cluster_idx being a tuple
+cluster_idx = cluster_idx[0]  # fix for cluster_idx being a tuple
 avg_distance = tf.reduce_mean(scores)
 
 # Initialize the variables (i.e. assign their default value)

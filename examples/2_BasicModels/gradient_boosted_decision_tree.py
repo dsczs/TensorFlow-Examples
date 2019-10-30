@@ -13,25 +13,27 @@ Project: https://github.com/aymericdamien/TensorFlow-Examples/
 
 from __future__ import print_function
 
+# Ignore all GPUs (current TF GBDT does not support GPU).
+import os
+
 import tensorflow as tf
 from tensorflow.contrib.boosted_trees.estimator_batch.estimator import GradientBoostedDecisionTreeClassifier
 from tensorflow.contrib.boosted_trees.proto import learner_pb2 as gbdt_learner
 
-# Ignore all GPUs (current TF GBDT does not support GPU).
-import os
 os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 # Import MNIST data
 # Set verbosity to display errors only (Remove this line for showing warnings)
 tf.logging.set_verbosity(tf.logging.ERROR)
 from tensorflow.examples.tutorials.mnist import input_data
+
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=False,
                                   source_url='http://yann.lecun.com/exdb/mnist/')
 
 # Parameters
-batch_size = 4096 # The number of samples per batch
-num_classes = 10 # The 10 digits
-num_features = 784 # Each image is 28x28 pixels
+batch_size = 4096  # The number of samples per batch
+num_classes = 10  # The 10 digits
+num_features = 784  # Each image is 28x28 pixels
 max_steps = 10000
 
 # GBDT Parameters
@@ -52,11 +54,11 @@ growing_mode = gbdt_learner.LearnerConfig.LAYER_BY_LAYER
 learner_config.growing_mode = growing_mode
 run_config = tf.contrib.learn.RunConfig(save_checkpoints_secs=300)
 learner_config.multi_class_strategy = (
-    gbdt_learner.LearnerConfig.DIAGONAL_HESSIAN)\
-
+    gbdt_learner.LearnerConfig.DIAGONAL_HESSIAN) \
+ \
 # Create a TensorFlor GBDT Estimator
 gbdt_model = GradientBoostedDecisionTreeClassifier(
-    model_dir=None, # No save directory specified
+    model_dir=None,  # No save directory specified
     learner_config=learner_config,
     n_classes=num_classes,
     examples_per_layer=examples_per_layer,
